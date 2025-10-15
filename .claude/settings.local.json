@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s \"https://generativelanguage.googleapis.com/v1/models?key=AIzaSyAThZiididVCLy-ZCJCjAmSCnAksDJPbTc\")",
+      "Bash(git remote add snipinfo git@github.com:jfoote22/Snipinfo.git)",
+      "Bash(git add inject/elements.js .claude/ CLAUDE.md)",
+      "Bash(git log -3 --format='%s')",
+      "Bash(git commit -m \"$(cat <<''EOF''\nAdd Claude Code configuration and improve Gemini API integration\n\nAdded CLAUDE.md documentation for AI assistant context and .claude/ configuration directory. Enhanced Gemini API error handling with validation for API key and prompt inputs, improved error messages, and upgraded to gemini-2.0-flash model with API key verification on save.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(git push snipinfo main)",
+      "Bash(git remote set-url snipinfo https://github.com/jfoote22/Snipinfo.git)",
+      "Bash(git add inject/elements.js .claude/settings.local.json)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

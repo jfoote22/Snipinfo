@@ -1,0 +1,34 @@
+{
+"update_url": "https://clients2.google.com/service/update2/crx",
+
+  "manifest_version": 3,
+  "version": "1.0.0",
+  "name": "AI Snipping Tool",
+  "description": "capture the screenshot and extract text from the image",
+  "default_locale": "en",
+  "permissions": [
+    "storage",
+    "scripting",
+    "contextMenus"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "worker.js"
+  },
+  "icons": {
+    
+    "48": "icons/logo.png"
+    
+  },
+  "action": {},
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'"
+  },
+  "web_accessible_resources": [{
+    "resources": ["/engine/index.html", "/engine/preview-controls.js"],
+    "matches": ["<all_urls>"]
+  }]
+ 
+}
