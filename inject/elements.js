@@ -391,10 +391,6 @@ Use Ctrl + Click or Command + Click to remove local language training data`,
         background-color: #3a5163;
     }
 
-    :host([dark-mode]) .collapsible-header label {
-        color: #ecf0f1;
-    }
-
     :host([dark-mode]) #api-key-toggle {
         color: #bdc3c7;
     }
@@ -500,7 +496,7 @@ Use Ctrl + Click or Command + Click to remove local language training data`,
 
     .collapsible-header {
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
         padding: 8px 12px;
         cursor: pointer;
@@ -511,13 +507,6 @@ Use Ctrl + Click or Command + Click to remove local language training data`,
 
     .collapsible-header:hover {
         background-color: #e8e8e8;
-    }
-
-    .collapsible-header label {
-        margin: 0;
-        font-weight: 600;
-        color: #333;
-        cursor: pointer;
     }
 
     #api-key-toggle {
@@ -534,7 +523,7 @@ Use Ctrl + Click or Command + Click to remove local language training data`,
     }
 
     #api-key-toggle.collapsed {
-        transform: rotate(45deg);
+        transform: rotate(180deg);
     }
 
     .collapsible-content {
@@ -646,6 +635,20 @@ Use Ctrl + Click or Command + Click to remove local language training data`,
 
     /* OCR Text Container Styles */
     #ocr-text-container {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        min-height: 150px;
+        max-height: 300px;
+        margin-top: 12px;
+        background-color: #fff;
+        border: 1px solid #d1d1d1;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    /* AI Analyzed Text Container Styles */
+    #ai-analyzed-text-container {
         display: flex;
         flex-direction: column;
         flex: 1;
@@ -830,7 +833,7 @@ Use Ctrl + Click or Command + Click to remove local language training data`,
         border-color: #4a4a4a;
     }
 
-    :host([dark-mode]) #ocr-text-container {
+    :host([dark-mode]) #ai-analyzed-text-container {
         background-color: #202938;
         border-color: #4a4a4a;
     }
@@ -1083,7 +1086,7 @@ Use Ctrl + Click or Command + Click to remove local language training data`,
             margin-left: 0;
         }
         
-        #ocr-text-container,
+        #ai-analyzed-text-container,
         #chat-container {
             min-height: 120px;
             max-height: 250px;
@@ -1144,7 +1147,7 @@ Use Ctrl + Click or Command + Click to remove local language training data`,
             padding-bottom: 12px;
         }
         
-        #ocr-text-container,
+        #ai-analyzed-text-container,
         #chat-container {
             min-height: 100px;
             max-height: 200px;
@@ -1215,10 +1218,9 @@ Use Ctrl + Click or Command + Click to remove local language training data`,
     <!-- API Key Section -->
     <div id="api-key-section-container">
         <div class="collapsible-header" id="api-key-header">
-            <label for="api-key-section">Settings</label>
             <button id="api-key-toggle" title="Toggle Settings">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                    <path d="M4.427 7.427l3.396 3.396a.25.25 0 0 0 .354 0l3.396-3.396A.25.25 0 0 0 11.396 7H4.604a.25.25 0 0 0-.177.427z"/>
                 </svg>
             </button>
         </div>
@@ -1290,8 +1292,8 @@ Use Ctrl + Click or Command + Click to remove local language training data`,
             </div>
         </div>
     </div>
-    <label for="ocr-container">OCR Text</label>
-    <div id="ocr-text-container">
+    <label for="ai-analyzed-text-container">AI Analyzed Text</label>
+    <div id="ai-analyzed-text-container">
         <div id="result" data-msg="Please wait..." style="display:none;"></div>
         <div id="result-in-process">
             <div class="spinner"></div>
