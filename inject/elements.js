@@ -170,20 +170,217 @@ Use Ctrl + Click or Command + Click to remove local language training data`,
         border-bottom: solid;
     }
 
-    .logo-title {
+    .settings-button {
         display: flex;
         align-items: center;
+        cursor: pointer;
+        padding: 4px;
+        border-radius: 4px;
+        transition: background-color 0.2s ease;
     }
 
-    .logo {
+    .settings-button:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    .settings-button svg {
         width: 20px;
         height: 20px;
-        margin-right: 6px;
+        fill: #666;
+    }
+
+    .settings-button:hover svg {
+        fill: #333;
+    }
+
+    /* Settings Modal Styles */
+    #settings-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 10000000001;
+    }
+
+    #settings-content {
+        background-color: #fff;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        max-width: 400px;
+        width: 90%;
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+
+    #settings-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    #settings-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #333;
+        margin: 0;
+    }
+
+    #settings-close {
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: #666;
+        padding: 0;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        transition: background-color 0.2s ease;
+    }
+
+    #settings-close:hover {
+        background-color: #f0f0f0;
+        color: #333;
+    }
+
+    .settings-section {
+        margin-bottom: 20px;
+    }
+
+    .settings-section h3 {
+        font-size: 14px;
+        font-weight: 600;
+        color: #333;
+        margin: 0 0 10px 0;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .settings-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .settings-item:last-child {
+        border-bottom: none;
+    }
+
+    .settings-label {
+        font-size: 14px;
+        color: #333;
+        font-weight: 500;
+    }
+
+    .settings-control {
+        min-width: 120px;
+    }
+
+    .settings-control select {
+        width: 100%;
+        padding: 6px 10px;
+        border-radius: 6px;
+        border: 1px solid #d1d1d1;
+        background-color: #f5f5f7;
+        font-size: 12px;
+        color: #333;
+    }
+
+    .settings-toggle {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .toggle-switch {
+        position: relative;
+        width: 44px;
+        height: 24px;
+        background-color: #ccc;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .toggle-switch.active {
+        background-color: #007AFF;
+    }
+
+    .toggle-switch::after {
+        content: '';
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        width: 20px;
+        height: 20px;
+        background-color: white;
+        border-radius: 50%;
+        transition: transform 0.3s ease;
+    }
+
+    .toggle-switch.active::after {
+        transform: translateX(20px);
+    }
+
+    /* Dark mode styles for settings modal */
+    :host([dark-mode]) #settings-content {
+        background-color: #202938;
+        color: #ecf0f1;
+    }
+
+    :host([dark-mode]) #settings-title {
+        color: #FDDE5A;
+    }
+
+    :host([dark-mode]) .settings-section h3 {
+        color: #FDDE5A;
+    }
+
+    :host([dark-mode]) .settings-label {
+        color: #ecf0f1;
+    }
+
+    :host([dark-mode]) .settings-control select {
+        background-color: #2c3e50;
+        color: #ecf0f1;
+        border-color: #4a4a4a;
+    }
+
+    :host([dark-mode]) #settings-header {
+        border-bottom-color: #4a4a4a;
+    }
+
+    :host([dark-mode]) .settings-item {
+        border-bottom-color: #4a4a4a;
+    }
+
+    :host([dark-mode]) #settings-close {
+        color: #ecf0f1;
+    }
+
+    :host([dark-mode]) #settings-close:hover {
+        background-color: #2c3e50;
+        color: #FDDE5A;
     }
 
     .right-icons {
         display: flex;
         align-items: center;
+        gap: 8px;
     }
 
     .github-link {
@@ -804,6 +1001,23 @@ Use Ctrl + Click or Command + Click to remove local language training data`,
             min-height: 120px;
             max-height: 200px;
         }
+        
+        #settings-content {
+            width: 95%;
+            max-width: 350px;
+            padding: 15px;
+        }
+        
+        .settings-item {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+        }
+        
+        .settings-control {
+            width: 100%;
+            min-width: auto;
+        }
     }
 
     /* Small mobile screens */
@@ -870,20 +1084,19 @@ Use Ctrl + Click or Command + Click to remove local language training data`,
         <progress id="recognize" value="0" max="1"></progress>
     </div>
     <div id="top">
-        <div class="logo-title">
-            <img src="https://raw.githubusercontent.com/gitgoap/AI-Snipping-Tool/main/icons/logo.png" alt="AI Snipping Tool Logo" class="logo">
-            <span class="section-heading">
-                <a href="https://github.com/gitgoap/AI-Snipping-Tool">AI Snipping Tool</a>
-            </span>
+        <div class="settings-button" id="settings-button" title="Settings">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 15.5A3.5 3.5 0 0 1 8.5 12A3.5 3.5 0 0 1 12 8.5a3.5 3.5 0 0 1 3.5 3.5a3.5 3.5 0 0 1-3.5 3.5m7.43-2.53c.04-.32.07-.64.07-.97c0-.33-.03-.66-.07-1l2.11-1.63c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.31-.61-.22l-2.49 1c-.52-.39-1.06-.73-1.69-.98l-.37-2.65A.506.506 0 0 0 14 2h-4c-.25 0-.46.18-.5.42l-.37 2.65c-.63.25-1.17.59-1.69.98l-2.49-1c-.22-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64L4.57 11c-.04.34-.07.67-.07 1c0 .33.03.65.07.97l-2.11 1.66c-.19.15-.25.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1.01c.52.4 1.06.74 1.69.99l.37 2.65c.04.24.25.42.5.42h4c.25 0 .46-.18.5-.42l.37-2.65c.63-.26 1.17-.59 1.69-.99l2.49 1.01c.22.08.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.66Z"/>
+            </svg>
         </div>
         <div class="right-icons">
             <svg id="toggle-dark-mode" stroke="currentColor" fill="#9044ac" stroke-width="0" viewBox="0 0 16 16" class="dark-toggle cursor-pointer" height="28" width="28" xmlns="http://www.w3.org/2000/svg">
                 <path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"></path>
                 <path d="M10.794 3.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387a1.734 1.734 0 0 0-1.097 1.097l-.387 1.162a.217.217 0 0 1-.412 0l-.387-1.162A1.734 1.734 0 0 0 9.31 6.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387a1.734 1.734 0 0 0 1.097-1.097l.387-1.162zM13.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.156 1.156 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732L13.863.1z"></path>
             </svg>
+            <button id="copy" disabled>Copy</button>
+            <button id="close" title="${this.locales.close}">Close</button>
         </div>
-        <button id="copy" disabled>Copy</button>
-        <button id="close" title="${this.locales.close}">Close</button>
     </div>
     <div class="preview-section">
         <div class="preview-header">
@@ -1068,6 +1281,54 @@ Use Ctrl + Click or Command + Click to remove local language training data`,
         </div>
     </div>
 
+    <!-- Settings Modal -->
+    <div id="settings-modal">
+        <div id="settings-content">
+            <div id="settings-header">
+                <h2 id="settings-title">Settings</h2>
+                <button id="settings-close">&times;</button>
+            </div>
+            
+            <div class="settings-section">
+                <h3>Appearance</h3>
+                <div class="settings-item">
+                    <span class="settings-label">Dark Mode</span>
+                    <div class="settings-toggle">
+                        <div class="toggle-switch" id="dark-mode-toggle"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="settings-section">
+                <h3>OCR Settings</h3>
+                <div class="settings-item">
+                    <span class="settings-label">Language</span>
+                    <div class="settings-control">
+                        <select id="settings-language">
+                            <optgroup>
+                                <option value="detect">Auto Detect (beta)</option>
+                            </optgroup>
+                            <optgroup id="settings-frequently-used"></optgroup>
+                            <optgroup>
+                                <option value="eng">English</option>
+                                <option value="fra">French</option>
+                                <option value="deu">German</option>
+                                <option value="spa">Spanish</option>
+                                <option value="ita">Italian</option>
+                                <option value="por">Portuguese</option>
+                                <option value="rus">Russian</option>
+                                <option value="ara">Arabic</option>
+                                <option value="chi_sim">Chinese - Simplified</option>
+                                <option value="chi_tra">Chinese - Traditional</option>
+                                <option value="jpn">Japanese</option>
+                                <option value="kor">Korean</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div>
 
@@ -1295,12 +1556,76 @@ Use Ctrl + Click or Command + Click to remove local language training data`,
                     }
                 };
 
+                // Settings modal functionality
+                const settingsModal = this.shadowRoot.getElementById('settings-modal');
+                const settingsButton = this.shadowRoot.getElementById('settings-button');
+                const settingsClose = this.shadowRoot.getElementById('settings-close');
+                const darkModeToggle = this.shadowRoot.getElementById('dark-mode-toggle');
+                const settingsLanguage = this.shadowRoot.getElementById('settings-language');
+
+                // Open settings modal
+                settingsButton.onclick = () => {
+                    settingsModal.style.display = 'flex';
+                };
+
+                // Close settings modal
+                settingsClose.onclick = () => {
+                    settingsModal.style.display = 'none';
+                };
+
+                // Close modal when clicking outside
+                settingsModal.onclick = (e) => {
+                    if (e.target === settingsModal) {
+                        settingsModal.style.display = 'none';
+                    }
+                };
+
+                // Dark mode toggle in settings
+                darkModeToggle.onclick = () => {
+                    const isDarkMode = this.hasAttribute('dark-mode');
+                    if (isDarkMode) {
+                        this.removeAttribute('dark-mode');
+                        chrome.storage.local.remove('dark-mode');
+                        darkModeToggle.classList.remove('active');
+                    } else {
+                        this.setAttribute('dark-mode', '');
+                        chrome.storage.local.set({ 'dark-mode': 'true' });
+                        darkModeToggle.classList.add('active');
+                    }
+                };
+
+                // Language change handler
+                settingsLanguage.onchange = () => {
+                    const selectedLang = settingsLanguage.value;
+                    this.dataset.lang = selectedLang;
+                    chrome.storage.local.set({ 'lang': selectedLang });
+                    this.dispatchEvent(new CustomEvent('language-changed'));
+                };
+
                 // Apply saved dark mode preference
                 chrome.storage.local.get('dark-mode', function(result) {
                     if (result['dark-mode'] === 'true') {
                       this.setAttribute('dark-mode', '');
+                      darkModeToggle.classList.add('active');
                     }
                   }.bind(this));
+
+                // Initialize language settings
+                chrome.storage.local.get('lang', function(result) {
+                    const savedLang = result['lang'] || 'eng';
+                    settingsLanguage.value = savedLang;
+                    this.dataset.lang = savedLang;
+                }.bind(this));
+
+                // Initialize frequently used languages
+                chrome.storage.local.get('frequently-used', function(result) {
+                    const frequentlyUsed = result['frequently-used'] || ['eng', 'fra', 'deu', 'rus', 'ara'];
+                    const frequentlyUsedGroup = this.shadowRoot.getElementById('settings-frequently-used');
+                    frequentlyUsedGroup.innerHTML = frequentlyUsed.map(lang => {
+                        const option = this.shadowRoot.querySelector(`#settings-language option[value="${lang}"]`);
+                        return option ? option.outerHTML : '';
+                    }).join('');
+                }.bind(this));
 
                 // Enter saved API Key in the API Key input field.
                 chrome.storage.local.get('gemini-api-key', function(result) {
