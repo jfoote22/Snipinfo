@@ -377,10 +377,41 @@ Use Ctrl + Click or Command + Click to remove local language training data`,
         color: #FDDE5A;
     }
 
+    /* Dark mode styles for collapsible settings */
+    :host([dark-mode]) #api-key-section-container {
+        background-color: #2c3e50;
+        border-color: #4a4a4a;
+    }
+
+    :host([dark-mode]) .collapsible-header {
+        background-color: #34495e;
+    }
+
+    :host([dark-mode]) .collapsible-header:hover {
+        background-color: #3a5163;
+    }
+
+    :host([dark-mode]) .collapsible-header label {
+        color: #ecf0f1;
+    }
+
+    :host([dark-mode]) #api-key-toggle {
+        color: #bdc3c7;
+    }
+
+    :host([dark-mode]) #api-key-toggle:hover {
+        color: #ecf0f1;
+    }
+
+    :host([dark-mode]) .settings-group label {
+        color: #ecf0f1;
+    }
+
     .right-icons {
         display: flex;
         align-items: center;
         gap: 8px;
+        flex-shrink: 0;
     }
 
     .github-link {
@@ -391,33 +422,43 @@ Use Ctrl + Click or Command + Click to remove local language training data`,
         fill: currentColor;
     }
 
-    #toggle-dark-mode {
-        margin-left: 10px;
-    }
-
-    .dark-toggle {
-        cursor: pointer;
-    }
-
     #close,
     #copy {
         font-family: Verdana, sans-serif;
-        border: solid;
+        border: 1px solid #007AFF;
         background: none;
-        font-size: 14px;
+        font-size: 12px;
         cursor: pointer;
         color: #007AFF;
-        width: 15%;
-        padding: 4px;
+        padding: 6px 12px;
         white-space: nowrap;
-        cursor: pointer;
-        transition: 0.2s ease;
+        border-radius: 6px;
+        transition: all 0.2s ease;
+        min-width: 60px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     #close:hover,
     #copy:hover {
         color: #003e80;
-        transition: 0.2s ease;
+        border-color: #003e80;
+        background-color: rgba(0, 58, 128, 0.1);
+    }
+
+    #copy:disabled {
+        color: #999;
+        border-color: #ccc;
+        background-color: #f5f5f5;
+        cursor: not-allowed;
+    }
+
+    #copy:disabled:hover {
+        color: #999;
+        border-color: #ccc;
+        background-color: #f5f5f5;
     }
 
     label {
@@ -448,6 +489,81 @@ Use Ctrl + Click or Command + Click to remove local language training data`,
         width: 15%;
         font-size: 11px;
         margin-left: 4px;
+    }
+
+    #api-key-section-container {
+        margin-bottom: 12px;
+        border: 1px solid #d1d1d1;
+        border-radius: 10px;
+        background-color: #f9f9f9;
+    }
+
+    .collapsible-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 12px;
+        cursor: pointer;
+        background-color: #f0f0f0;
+        border-radius: 10px 10px 0 0;
+        transition: background-color 0.2s ease;
+    }
+
+    .collapsible-header:hover {
+        background-color: #e8e8e8;
+    }
+
+    .collapsible-header label {
+        margin: 0;
+        font-weight: 600;
+        color: #333;
+        cursor: pointer;
+    }
+
+    #api-key-toggle {
+        background: none;
+        border: none;
+        padding: 4px;
+        cursor: pointer;
+        color: #666;
+        transition: transform 0.2s ease, color 0.2s ease;
+    }
+
+    #api-key-toggle:hover {
+        color: #333;
+    }
+
+    #api-key-toggle.collapsed {
+        transform: rotate(45deg);
+    }
+
+    .collapsible-content {
+        padding: 12px;
+        border-radius: 0 0 10px 10px;
+        transition: all 0.3s ease;
+        overflow: hidden;
+    }
+
+    .collapsible-content.collapsed {
+        max-height: 0;
+        padding: 0 12px;
+        border-top: none;
+    }
+
+    .settings-group {
+        margin-bottom: 12px;
+    }
+
+    .settings-group:last-child {
+        margin-bottom: 0;
+    }
+
+    .settings-group label {
+        display: block;
+        font-weight: 500;
+        margin: 0 0 6px 0;
+        color: #333;
+        font-size: 12px;
     }
 
     #api-key-section {
@@ -943,8 +1059,9 @@ Use Ctrl + Click or Command + Click to remove local language training data`,
         
         #close,
         #copy {
-            width: 100%;
+            flex: 1;
             margin-top: 8px;
+            min-width: auto;
         }
         
         .tool-row {
@@ -1090,14 +1207,65 @@ Use Ctrl + Click or Command + Click to remove local language training data`,
             </svg>
         </div>
         <div class="right-icons">
-            <svg id="toggle-dark-mode" stroke="currentColor" fill="#9044ac" stroke-width="0" viewBox="0 0 16 16" class="dark-toggle cursor-pointer" height="28" width="28" xmlns="http://www.w3.org/2000/svg">
-                <path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"></path>
-                <path d="M10.794 3.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387a1.734 1.734 0 0 0-1.097 1.097l-.387 1.162a.217.217 0 0 1-.412 0l-.387-1.162A1.734 1.734 0 0 0 9.31 6.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387a1.734 1.734 0 0 0 1.097-1.097l.387-1.162zM13.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.156 1.156 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732L13.863.1z"></path>
-            </svg>
             <button id="copy" disabled>Copy</button>
             <button id="close" title="${this.locales.close}">Close</button>
         </div>
     </div>
+    
+    <!-- API Key Section -->
+    <div id="api-key-section-container">
+        <div class="collapsible-header" id="api-key-header">
+            <label for="api-key-section">Settings</label>
+            <button id="api-key-toggle" title="Toggle Settings">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                </svg>
+            </button>
+        </div>
+        
+        <div class="collapsible-content" id="api-key-content">
+            <div class="settings-group">
+                <label for="api-key-section">API Key
+                    <a href="https://aistudio.google.com/app/apikey" title="Get API Key" style="text-decoration: none;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                            <polyline points="15 3 21 3 21 9"></polyline>
+                            <line x1="10" y1="14" x2="21" y2="3"></line>
+                        </svg>
+                    </a>
+                </label>
+                <div id="api-key-section">
+                    <input type="text" placeholder="Enter your Gemini API key" id="key">
+                    <button id="save-key">Save</button>
+                </div>
+            </div>
+            
+            <div class="settings-group">
+                <label for="language">OCR Language</label>
+                <select id="language" class="language_select">
+                    <optgroup>
+                        <option value="detect">Auto Detect (beta)</option>
+                    </optgroup>
+                    <optgroup id="frequently-used"></optgroup>
+                    <optgroup>
+                        <option value="eng">English</option>
+                        <option value="fra">French</option>
+                        <option value="deu">German</option>
+                        <option value="spa">Spanish</option>
+                        <option value="ita">Italian</option>
+                        <option value="por">Portuguese</option>
+                        <option value="rus">Russian</option>
+                        <option value="ara">Arabic</option>
+                        <option value="chi_sim">Chinese - Simplified</option>
+                        <option value="chi_tra">Chinese - Traditional</option>
+                        <option value="jpn">Japanese</option>
+                        <option value="kor">Korean</option>
+                    </optgroup>
+                </select>
+            </div>
+        </div>
+    </div>
+    
     <div class="preview-section">
         <div class="preview-header">
             <label for="preview-container">Screenshot Preview</label>
@@ -1130,21 +1298,6 @@ Use Ctrl + Click or Command + Click to remove local language training data`,
         </div>
     </div>
     <div id="prompt-functions">
-        <label for="api-key-section">API Key
-            <a href="https://aistudio.google.com/app/apikey" title="Get API Key" style="text-decoration: none;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                    <polyline points="15 3 21 3 21 9"></polyline>
-                    <line x1="10" y1="14" x2="21" y2="3"></line>
-                </svg>
-            </a>
-        </label>
-
-        <div id="api-key-section">
-            <input type="text" placeholder="Enter your Gemini API key" id="key">
-            <button id="save-key">Save</button>
-        </div>
-
         <label for="chat-container">AI Chat</label>
         <div id="chat-container">
             <div id="chat-messages"></div>
@@ -1159,119 +1312,6 @@ Use Ctrl + Click or Command + Click to remove local language training data`,
         </div>
     </div>
     <div id="tools">
-        <div class="tool-row">
-            <select id="language" class="language_select">
-                <optgroup>
-                    <option value="detect">Auto Detect (beta)</option>
-                </optgroup>
-                <optgroup id="frequently-used"></optgroup>
-                <optgroup>
-                    <option value="afr">Afrikaans</option>
-                    <option value="amh">Amharic</option>
-                    <option value="ara">Arabic</option>
-                    <option value="asm">Assamese</option>
-                    <option value="aze">Azerbaijani</option>
-                    <option value="aze_cyrl">Azerbaijani - Cyrillic</option>
-                    <option value="bel">Belarusian</option>
-                    <option value="ben">Bengali</option>
-                    <option value="bod">Tibetan</option>
-                    <option value="bos">Bosnian</option>
-                    <option value="bul">Bulgarian</option>
-                    <option value="cat">Catalan; Valencian</option>
-                    <option value="ceb">Cebuano</option>
-                    <option value="ces">Czech</option>
-                    <option value="chi_sim">Chinese - Simplified</option>
-                    <option value="chi_tra">Chinese - Traditional</option>
-                    <option value="chr">Cherokee</option>
-                    <option value="cym">Welsh</option>
-                    <option value="dan">Danish</option>
-                    <option value="deu">German</option>
-                    <option value="dzo">Dzongkha</option>
-                    <option value="ell">Greek, Modern (1453-)</option>
-                    <option value="enm">English, Middle (1100-1500)</option>
-                    <option value="eng">English</option>
-                    <option value="epo">Esperanto</option>
-                    <option value="est">Estonian</option>
-                    <option value="eus">Basque</option>
-                    <option value="fas">Persian</option>
-                    <option value="fra">French</option>
-                    <option value="fin">Finnish</option>
-                    <option value="frk">German Fraktur</option>
-                    <option value="frm">French, Middle (ca. 1400-1600)</option>
-                    <option value="gle">Irish</option>
-                    <option value="glg">Galician</option>
-                    <option value="grc">Greek, Ancient (-1453)</option>
-                    <option value="guj">Gujarati</option>
-                    <option value="hat">Haitian; Haitian Creole</option>
-                    <option value="heb">Hebrew</option>
-                    <option value="hin">Hindi</option>
-                    <option value="hrv">Croatian</option>
-                    <option value="hun">Hungarian</option>
-                    <option value="iku">Inuktitut</option>
-                    <option value="ind">Indonesian</option>
-                    <option value="isl">Icelandic</option>
-                    <option value="ita">Italian</option>
-                    <option value="ita_old">Italian - Old</option>
-                    <option value="jav">Javanese</option>
-                    <option value="jpn">Japanese</option>
-                    <option value="jpn_vert">Japanese - Vertical</option>
-                    <option value="kan">Kannada</option>
-                    <option value="kat">Georgian</option>
-                    <option value="kat_old">Georgian - Old</option>
-                    <option value="kaz">Kazakh</option>
-                    <option value="khm">Central Khmer</option>
-                    <option value="kir">Kirghiz; Kyrgyz</option>
-                    <option value="kor">Korean</option>
-                    <option value="kur">Kurdish</option>
-                    <option value="lao">Lao</option>
-                    <option value="lat">Latin</option>
-                    <option value="lav">Latvian</option>
-                    <option value="lit">Lithuanian</option>
-                    <option value="mal">Malayalam</option>
-                    <option value="mar">Marathi</option>
-                    <option value="mkd">Macedonian</option>
-                    <option value="mlt">Maltese</option>
-                    <option value="msa">Malay</option>
-                    <option value="mya">Burmese</option>
-                    <option value="nep">Nepali</option>
-                    <option value="nld">Dutch; Flemish</option>
-                    <option value="nor">Norwegian</option>
-                    <option value="ori">Oriya</option>
-                    <option value="pan">Panjabi; Punjabi</option>
-                    <option value="pol">Polish</option>
-                    <option value="por">Portuguese</option>
-                    <option value="pus">Pushto; Pashto</option>
-                    <option value="ron">Romanian; Moldavian; Moldovan</option>
-                    <option value="rus">Russian</option>
-                    <option value="san">Sanskrit</option>
-                    <option value="sin">Sinhala; Sinhalese</option>
-                    <option value="slk">Slovak</option>
-                    <option value="slv">Slovenian</option>
-                    <option value="spa">Spanish; Castilian</option>
-                    <option value="spa_old">Spanish; Castilian - Old</option>
-                    <option value="sqi">Albanian</option>
-                    <option value="srp">Serbian</option>
-                    <option value="srp">latn Serbian - Latin</option>
-                    <option value="swa">Swahili</option>
-                    <option value="swe">Swedish</option>
-                    <option value="syr">Syriac</option>
-                    <option value="tam">Tamil</option>
-                    <option value="tel">Telugu</option>
-                    <option value="tgk">Tajik</option>
-                    <option value="tgl">Tagalog</option>
-                    <option value="tha">Thai</option>
-                    <option value="tir">Tigrinya</option>
-                    <option value="tur">Turkish</option>
-                    <option value="uig">Uighur; Uyghur</option>
-                    <option value="ukr">Ukrainian</option>
-                    <option value="urd">Urdu</option>
-                    <option value="uzb">Uzbek</option>
-                    <option value="uzb_cyrl">Uzbek - Cyrillic</option>
-                    <option value="vie">Vietnamese</option>
-                    <option value="yid">Yiddish</option>
-                </optgroup>
-            </select>
-        </div>
         <div class="tool-row">
             <button id="save-screenshot">Save Screenshot</button>
             <button id="save-text">Save Text</button>
@@ -1544,18 +1584,6 @@ Use Ctrl + Click or Command + Click to remove local language training data`,
                     }
                 };
 
-                // Add dark mode toggle logic
-                this.shadowRoot.getElementById('toggle-dark-mode').onclick = () => {
-                    const isDarkMode = this.hasAttribute('dark-mode');
-                    if (isDarkMode) {
-                        this.removeAttribute('dark-mode');
-                        chrome.storage.local.remove('dark-mode');
-                    } else {
-                        this.setAttribute('dark-mode', '');
-                        chrome.storage.local.set({ 'dark-mode': 'true' });
-                    }
-                };
-
                 // Settings modal functionality
                 const settingsModal = this.shadowRoot.getElementById('settings-modal');
                 const settingsButton = this.shadowRoot.getElementById('settings-button');
@@ -1754,6 +1782,31 @@ Use Ctrl + Click or Command + Click to remove local language training data`,
                     this.configure(prefs, true);
                     this.dispatchEvent(new Event('accuracy-changed'));
                 };
+
+                // Collapsible settings toggle
+                const apiKeyToggle = this.shadowRoot.getElementById('api-key-toggle');
+                const apiKeyContent = this.shadowRoot.getElementById('api-key-content');
+                const apiKeyHeader = this.shadowRoot.getElementById('api-key-header');
+                
+                // Initialize collapsed state
+                let isCollapsed = true;
+                apiKeyContent.classList.add('collapsed');
+                apiKeyToggle.classList.add('collapsed');
+                
+                // Toggle functionality
+                const toggleSettings = () => {
+                    isCollapsed = !isCollapsed;
+                    if (isCollapsed) {
+                        apiKeyContent.classList.add('collapsed');
+                        apiKeyToggle.classList.add('collapsed');
+                    } else {
+                        apiKeyContent.classList.remove('collapsed');
+                        apiKeyToggle.classList.remove('collapsed');
+                    }
+                };
+                
+                apiKeyToggle.onclick = toggleSettings;
+                apiKeyHeader.onclick = toggleSettings;
 
                 // Save API Key
                 this.shadowRoot.getElementById('save-key').onclick = e => {
