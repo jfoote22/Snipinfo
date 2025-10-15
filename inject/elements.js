@@ -27,8 +27,8 @@
                     gap: 5px;
                     flex-direction: column;
                     background-color: transparent;
-                    height: 30vh;
-                    width: 40vw;
+                    height: 90vh;
+                    width: 20vw;
                     min-height: 300px;
                     min-width: 300px;
                     max-height: 90vh;
