@@ -1554,6 +1554,13 @@ Use Ctrl + Click or Command + Click to remove local language training data`,
             connectedCallback() {
                 // Initialize preview with any existing screenshot
                 this.updatePreview();
+
+                if (this.dataset.textMode === 'true') {
+                    const previewSection = this.shadowRoot.querySelector('.preview-section');
+                    if (previewSection) {
+                        previewSection.style.display = 'none';
+                    }
+                }
                 
                 // Preview screenshot toggle
                 this.shadowRoot.getElementById('preview-screenshot').onclick = e => {

@@ -223,3 +223,49 @@
     }
   });
 }
+
+// Replace the existing handler with this improved version
+chrome.runtime.onMessage.addListener((request, sender, response) => {
+  if (request.method === 'analyze_selected_text') {
+    // Remove existing ocr-result elements to ensure only one
+    document.querySelectorAll('ocr-result').forEach(e => e.remove());
+
+    // Create or get the ocr-container
+    const container = document.querySelector('ocr-container') || document.createElement('ocr-container');
+    if (!container.isConnected) {
+      document.body.append(container);
+    }
+
+    // Create ocr-result element
+    const em = document.createElement('ocr-result');
+    em.dataset.textMode = 'true'; // Flag for text mode
+    container.append(em);
+
+    // Clear screenshot storage to prevent showing old image
+    chrome.storage.local.remove('ocr-screenshot');
+
+    // Use the command interface to clear and build
+    const command = em.command || ((name, ...args) => em[name](...args));
+
+    // Clear existing content
+    command('clear');
+
+    // Build with the selected text wrapped in HTML (preserving newlines)
+    const html = `<div>${request.text.replace(/\n/g, '<br>')}</div>`;
+    command('build', html);
+
+    // Hide processing and show result
+    em.shadowRoot.querySelector('#result').style.display = 'block';
+    em.shadowRoot.querySelector('#result-in-process').style.display = 'none';
+
+    // Enable copy button and other UI elements
+    command('enable');
+
+    // Clear any messages and progress
+    command('message', '');
+    command('progress', 1);
+
+    response({success: true});
+    return true;
+  }
+});

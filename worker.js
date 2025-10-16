@@ -179,6 +179,12 @@ chrome.runtime.onInstalled.addListener((details) => {
     "title": "screenshot",
     "visible": true,
   });
+  chrome.contextMenus.create({
+    id: 'analyze_text',
+    title: 'Analyze Selected Text with AI',
+    contexts: ['selection'],
+    visible: true,
+  });
 });
 
 chrome.contextMenus.onClicked.addListener(async tab => {
@@ -213,5 +219,39 @@ chrome.contextMenus.onClicked.addListener(async tab => {
     
   }
 })
+
+chrome.contextMenus.onClicked.addListener(async (info, tab) => {
+  if (info.menuItemId === 'analyze_text') {
+    // Get current tab
+    let queryOptions = { active: true, lastFocusedWindow: true };
+    let [current_tab] = await chrome.tabs.query(queryOptions);
+
+    // Inject necessary scripts if not already
+    await chrome.scripting.insertCSS({
+      target: { tabId: current_tab.id },
+      files: ['inject/inject.css']
+    });
+    await chrome.scripting.executeScript({
+      target: { tabId: current_tab.id },
+      files: ['inject/custom-elements.min.js', 'inject/elements.js', 'inject/response.js']
+    });
+
+    // Clean up any existing capture listeners
+    await chrome.scripting.executeScript({
+      target: { tabId: current_tab.id },
+      func: () => {
+        if (typeof capture === 'object' && capture.remove) {
+          capture.remove();
+        }
+      }
+    });
+
+    // Send message to content script with selected text
+    chrome.tabs.sendMessage(current_tab.id, {
+      method: 'analyze_selected_text',
+      text: info.selectionText
+    });
+  }
+});
 
 chrome.runtime.setUninstallURL('https://amanprakash.dev/');
