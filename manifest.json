@@ -27,7 +27,16 @@
     "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'"
   },
   "web_accessible_resources": [{
-    "resources": ["/engine/index.html", "/engine/preview-controls.js"],
+    "resources": [
+      "/engine/index.html",
+      "/engine/preview-controls.js",
+      "/firebase/firebase-config.js",
+      "/firebase/firebase-service.js",
+      "/utils/text-extractor.js",
+      "/inject/firebase-init.js",
+      "/inject/snippets-viewer.js",
+      "/inject/snippets-viewer.css"
+    ],
     "matches": ["<all_urls>"]
   }]
  

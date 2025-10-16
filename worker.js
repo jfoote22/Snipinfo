@@ -61,6 +61,17 @@ chrome.runtime.onMessage.addListener((request, sender, response) => {
           tabId: sender.tab.id
         };
         if (/Firefox/.test(navigator.userAgent) === false) {
+          // Load Firebase module first using a script tag
+          await chrome.scripting.executeScript({
+            target,
+            func: () => {
+              const script = document.createElement('script');
+              script.type = 'module';
+              script.src = chrome.runtime.getURL('/inject/firebase-init.js');
+              document.head.appendChild(script);
+            }
+          });
+
           await chrome.scripting.executeScript({
             target,
             files: ['/inject/custom-elements.min.js']

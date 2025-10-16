@@ -1,4 +1,4 @@
-
+'use strict';
 
 {
     if (customElements.get('ocr-container') === undefined) {
@@ -132,6 +132,10 @@ Use Ctrl + Click or Command + Click to remove local language training data`,
 
                 // Chat messages array
                 this.chatMessages = [];
+
+                // Firebase user state
+                this.currentUser = null;
+                this.currentSnippetId = null;
 
                 const shadow = this.attachShadow({ mode: 'open' });
                 shadow.innerHTML = `
@@ -1012,6 +1016,157 @@ Use Ctrl + Click or Command + Click to remove local language training data`,
         color: #999;
     }
 
+    /* Firebase Auth Styles */
+    #firebase-auth-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 12px;
+        background-color: #f9f9f9;
+        border: 1px solid #d1d1d1;
+        border-radius: 10px;
+        margin-bottom: 12px;
+    }
+
+    #firebase-user-info {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex: 1;
+    }
+
+    #firebase-user-avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    #firebase-user-name {
+        font-size: 12px;
+        font-weight: 500;
+        color: #333;
+    }
+
+    #firebase-sign-in,
+    #firebase-sign-out {
+        padding: 6px 12px;
+        border-radius: 6px;
+        border: 1px solid #d1d1d1;
+        background-color: #007AFF;
+        color: white;
+        font-size: 12px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    #firebase-sign-in:hover,
+    #firebase-sign-out:hover {
+        background-color: #0056b3;
+    }
+
+    #firebase-sign-out {
+        background-color: #dc3545;
+    }
+
+    #firebase-sign-out:hover {
+        background-color: #c82333;
+    }
+
+    #firebase-status {
+        font-size: 11px;
+        color: #666;
+        margin-top: 4px;
+    }
+
+    #save-to-firebase {
+        width: 100%;
+        padding: 8px 12px;
+        border-radius: 10px;
+        border: none;
+        background-color: #28a745;
+        color: white;
+        font-size: 12px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        margin-top: 8px;
+    }
+
+    #save-to-firebase:hover {
+        background-color: #218838;
+    }
+
+    #save-to-firebase:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+    }
+
+    #save-to-firebase svg {
+        width: 16px;
+        height: 16px;
+        fill: white;
+    }
+
+    #view-snippets {
+        width: 100%;
+        padding: 8px 12px;
+        border-radius: 10px;
+        border: 1px solid #007AFF;
+        background-color: white;
+        color: #007AFF;
+        font-size: 12px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        margin-top: 8px;
+    }
+
+    #view-snippets:hover {
+        background-color: rgba(0, 122, 255, 0.1);
+    }
+
+    #view-snippets:disabled {
+        background-color: #f5f5f5;
+        color: #ccc;
+        border-color: #ccc;
+        cursor: not-allowed;
+    }
+
+    :host([dark-mode]) #firebase-auth-container {
+        background-color: #2c3e50;
+        border-color: #4a4a4a;
+    }
+
+    :host([dark-mode]) #firebase-user-name {
+        color: #ecf0f1;
+    }
+
+    :host([dark-mode]) #firebase-status {
+        color: #bdc3c7;
+    }
+
+    :host([dark-mode]) #view-snippets {
+        background-color: #2c3e50;
+        color: #007AFF;
+        border-color: #007AFF;
+    }
+
+    :host([dark-mode]) #view-snippets:hover {
+        background-color: rgba(0, 122, 255, 0.2);
+    }
+
     .spinner {
     display: none;
     width: 40px;
@@ -1214,7 +1369,25 @@ Use Ctrl + Click or Command + Click to remove local language training data`,
             <button id="close" title="${this.locales.close}">Close</button>
         </div>
     </div>
-    
+
+    <!-- Firebase Authentication -->
+    <div id="firebase-auth-container">
+        <div id="firebase-user-info" style="display: none;">
+            <img id="firebase-user-avatar" alt="User Avatar">
+            <div>
+                <div id="firebase-user-name"></div>
+                <div id="firebase-status">Signed in</div>
+            </div>
+        </div>
+        <button id="firebase-sign-in" style="display: block;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                <path d="M12.545,10.239v3.821h5.445c-0.712,2.315-2.647,3.972-5.445,3.972c-3.332,0-6.033-2.701-6.033-6.032 s2.701-6.032,6.033-6.032c1.498,0,2.866,0.549,3.921,1.453l2.814-2.814C17.503,2.988,15.139,2,12.545,2 C7.021,2,2.543,6.477,2.543,12s4.478,10,10.002,10c8.396,0,10.249-7.85,9.426-11.748L12.545,10.239z"/>
+            </svg>
+            Sign in with Google
+        </button>
+        <button id="firebase-sign-out" style="display: none;">Sign Out</button>
+    </div>
+
     <!-- API Key Section -->
     <div id="api-key-section-container">
         <div class="collapsible-header" id="api-key-header">
@@ -1314,6 +1487,18 @@ Use Ctrl + Click or Command + Click to remove local language training data`,
         </div>
     </div>
     <div id="tools">
+        <button id="save-to-firebase" disabled>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+            </svg>
+            Save Snippet to Firebase
+        </button>
+        <button id="view-snippets" disabled>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/>
+            </svg>
+            View My Snippets
+        </button>
         <div class="tool-row">
             <button id="save-screenshot">Save Screenshot</button>
             <button id="save-text">Save Text</button>
@@ -1538,7 +1723,7 @@ Use Ctrl + Click or Command + Click to remove local language training data`,
             updatePreview() {
                 const previewImage = this.shadowRoot.getElementById('preview-image');
                 const previewPlaceholder = this.shadowRoot.getElementById('preview-placeholder');
-                
+
                 chrome.storage.local.get('ocr-screenshot', function(result) {
                     const url = result['ocr-screenshot'];
                     if (url) {
@@ -1551,7 +1736,196 @@ Use Ctrl + Click or Command + Click to remove local language training data`,
                     }
                 }.bind(this));
             }
+
+            // Firebase Authentication Methods
+            initializeFirebaseAuth() {
+                // Check if Firebase is loaded
+                if (!window.firebaseAuth) {
+                    console.log('Firebase not loaded yet, will retry...');
+                    setTimeout(() => this.initializeFirebaseAuth(), 500);
+                    return;
+                }
+
+                const signInBtn = this.shadowRoot.getElementById('firebase-sign-in');
+                const signOutBtn = this.shadowRoot.getElementById('firebase-sign-out');
+                const userInfo = this.shadowRoot.getElementById('firebase-user-info');
+                const saveBtn = this.shadowRoot.getElementById('save-to-firebase');
+                const viewBtn = this.shadowRoot.getElementById('view-snippets');
+
+                // Listen for auth state changes
+                window.firebaseAuth.onAuthChange((user) => {
+                    this.currentUser = user;
+                    this.updateAuthUI(user);
+                });
+
+                // Sign in handler
+                signInBtn.onclick = async () => {
+                    signInBtn.disabled = true;
+                    signInBtn.textContent = 'Signing in...';
+
+                    const result = await window.firebaseAuth.signInWithGoogle();
+
+                    if (!result.success) {
+                        alert('Sign in failed: ' + result.error);
+                        signInBtn.disabled = false;
+                        signInBtn.textContent = 'Sign in with Google';
+                    }
+                };
+
+                // Sign out handler
+                signOutBtn.onclick = async () => {
+                    const result = await window.firebaseAuth.signOutUser();
+                    if (!result.success) {
+                        alert('Sign out failed: ' + result.error);
+                    }
+                };
+
+                // Save to Firebase handler
+                saveBtn.onclick = async () => {
+                    await this.saveSnippetToFirebase();
+                };
+
+                // View snippets handler
+                viewBtn.onclick = () => {
+                    this.openSnippetsViewer();
+                };
+            }
+
+            updateAuthUI(user) {
+                const signInBtn = this.shadowRoot.getElementById('firebase-sign-in');
+                const signOutBtn = this.shadowRoot.getElementById('firebase-sign-out');
+                const userInfo = this.shadowRoot.getElementById('firebase-user-info');
+                const userAvatar = this.shadowRoot.getElementById('firebase-user-avatar');
+                const userName = this.shadowRoot.getElementById('firebase-user-name');
+                const saveBtn = this.shadowRoot.getElementById('save-to-firebase');
+                const viewBtn = this.shadowRoot.getElementById('view-snippets');
+
+                if (user) {
+                    // User is signed in
+                    signInBtn.style.display = 'none';
+                    signOutBtn.style.display = 'block';
+                    userInfo.style.display = 'flex';
+                    userAvatar.src = user.photoURL || 'https://via.placeholder.com/32';
+                    userName.textContent = user.displayName || user.email;
+                    saveBtn.disabled = false;
+                    viewBtn.disabled = false;
+                } else {
+                    // User is signed out
+                    signInBtn.style.display = 'block';
+                    signOutBtn.style.display = 'none';
+                    userInfo.style.display = 'none';
+                    saveBtn.disabled = true;
+                    viewBtn.disabled = true;
+                }
+            }
+
+            async saveSnippetToFirebase() {
+                const saveBtn = this.shadowRoot.getElementById('save-to-firebase');
+                const ocrText = this.shadowRoot.getElementById('result').innerText;
+
+                if (!ocrText || ocrText.trim() === '') {
+                    alert('No OCR text to save. Please capture a screenshot first.');
+                    return;
+                }
+
+                // Get screenshot from storage
+                chrome.storage.local.get('ocr-screenshot', async (result) => {
+                    const screenshot = result['ocr-screenshot'];
+
+                    if (!screenshot) {
+                        alert('No screenshot found. Please capture a screenshot first.');
+                        return;
+                    }
+
+                    // Disable button and show loading
+                    saveBtn.disabled = true;
+                    const originalText = saveBtn.innerHTML;
+                    saveBtn.innerHTML = '<div class="spinner" style="display: inline-block; width: 16px; height: 16px; border-width: 2px;"></div> Saving...';
+
+                    try {
+                        // Extract structured data
+                        const extractedData = window.textExtractor.extractAllData(ocrText);
+
+                        // Get current language
+                        const language = this.dataset.language || 'eng';
+
+                        // Prepare snippet data
+                        const snippetData = {
+                            ocrText: ocrText,
+                            language: language,
+                            screenshotBase64: screenshot,
+                            extractedData: extractedData,
+                            title: this.generateTitleFromText(ocrText),
+                            tags: [],
+                            category: 'Uncategorized',
+                            geminiPrompts: this.chatMessages.filter(m => m.role === 'user' || m.role === 'assistant')
+                        };
+
+                        // Save to Firebase
+                        const saveResult = await window.firebaseService.saveSnippet(snippetData);
+
+                        if (saveResult.success) {
+                            this.currentSnippetId = saveResult.snippetId;
+                            alert('Snippet saved successfully!');
+
+                            // Update button to show success
+                            saveBtn.innerHTML = '✓ Saved!';
+                            setTimeout(() => {
+                                saveBtn.innerHTML = originalText;
+                                saveBtn.disabled = false;
+                            }, 2000);
+                        } else {
+                            throw new Error(saveResult.error);
+                        }
+                    } catch (error) {
+                        console.error('Error saving snippet:', error);
+                        alert('Failed to save snippet: ' + error.message);
+                        saveBtn.innerHTML = originalText;
+                        saveBtn.disabled = false;
+                    }
+                });
+            }
+
+            generateTitleFromText(text) {
+                if (!text || text.trim().length === 0) {
+                    return 'Untitled Snippet';
+                }
+                const cleaned = text.trim().replace(/\s+/g, ' ');
+                return cleaned.length > 50 ? cleaned.substring(0, 50) + '...' : cleaned;
+            }
+
+            openSnippetsViewer() {
+                // Check if snippets viewer already exists
+                let viewer = document.querySelector('snippets-viewer');
+
+                if (!viewer) {
+                    // Load the snippets viewer script dynamically
+                    const script = document.createElement('script');
+                    script.type = 'module';
+                    script.src = chrome.runtime.getURL('inject/snippets-viewer.js');
+
+                    script.onload = () => {
+                        // Create and inject snippets viewer element
+                        viewer = document.createElement('snippets-viewer');
+                        document.body.appendChild(viewer);
+
+                        // Open the sidebar after a brief delay to allow initialization
+                        setTimeout(() => {
+                            viewer.openSidebar();
+                        }, 100);
+                    };
+
+                    document.head.appendChild(script);
+                } else {
+                    // If viewer already exists, just open it
+                    viewer.openSidebar();
+                }
+            }
+
             connectedCallback() {
+                // Initialize Firebase Auth State
+                this.initializeFirebaseAuth();
+
                 // Initialize preview with any existing screenshot
                 this.updatePreview();
 

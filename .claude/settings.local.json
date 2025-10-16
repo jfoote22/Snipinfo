@@ -11,7 +11,10 @@
       "Bash(git add inject/elements.js .claude/settings.local.json)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "mcp__ide__getDiagnostics",
+      "Read(//c/Users/rawfo/Curser/AI_Snipping/**)",
+      "Bash(test:*)"
     ],
     "deny": [],
     "ask": []
